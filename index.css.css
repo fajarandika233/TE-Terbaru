@@ -1,0 +1,813 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 4%;
+    --primary: 0 100% 42%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 48 100% 50%;
+    --accent-foreground: 0 0% 4%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 91%;
+    --input: 0 0% 91%;
+    --ring: 0 100% 42%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --progress-rose: 347 94% 56%;
+    --progress-orange: 29 100% 50%;
+    --progress-blue: 216 100% 51%;
+    --progress-purple: 264 83% 58%;
+    --progress-green: 151 67% 36%;
+    --progress-gold: 43 96% 40%;
+    --quest-ground: 96 47% 63%;
+    --quest-ink: 29 30% 29%;
+    --progress-up: 139 78% 32%;
+    --progress-down: 353 79% 45%;
+    --radius: 0.5rem;
+    --font-heading: ui-sans-serif, system-ui, sans-serif;
+    --font-body: ui-sans-serif, system-ui, sans-serif;
+    --font-display: ui-sans-serif, system-ui, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --progress-rose: 347 96% 69%;
+    --progress-orange: 29 100% 64%;
+    --progress-blue: 216 100% 69%;
+    --progress-purple: 264 89% 74%;
+    --progress-green: 151 67% 58%;
+    --progress-gold: 43 96% 62%;
+    --quest-ground: 96 47% 63%;
+    --quest-ink: 29 30% 29%;
+    --progress-up: 139 72% 62%;
+    --progress-down: 353 87% 68%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Stop iOS from inflating text in landscape */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Kill any sideways scroll on phones (iPhone / Android). `clip` keeps the
+     sticky portal headers working; older browsers fall back to `hidden`. */
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Modern phones: clip instead of hidden, so sticky headers stay sticky */
+@supports (overflow-x: clip) {
+  body {
+    overflow-x: clip;
+  }
+}
+
+/* iOS/Android tidak auto-zoom saat ngetik di form */
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Tombol & link nyaman disentuh di layar kecil */
+@media (max-width: 767px) {
+  button,
+  a {
+    touch-action: manipulation;
+  }
+}
+
+/* iPhone notch / home-bar safe areas */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+/* Jarak aman di bawah header sticky: tinggi header + notch + ruang napas */
+.pt-nav {
+  padding-top: calc(6rem + env(safe-area-inset-top));
+}
+@media (min-width: 768px) {
+  .pt-nav {
+    padding-top: calc(7.75rem + env(safe-area-inset-top));
+  }
+}
+.safe-area-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #D80000;
+  border-radius: 3px;
+}
+
+/* Hide scrollbars on horizontal chip strips */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Gold CTA glow */
+.cta-gold {
+  background: #FFCC00;
+  color: #0A0A0A;
+  transition: all 0.3s ease;
+}
+.cta-gold:hover {
+  box-shadow: 0 0 30px rgba(255, 204, 0, 0.5), 0 0 60px rgba(255, 204, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* === Performance optimizations (no content removed) === */
+
+/* GPU-accelerated, JS-free marquees — replaces setInterval carousels */
+.marquee {
+  overflow: hidden;
+  contain: layout paint style;
+}
+.marquee-track {
+  display: flex;
+  will-change: transform;
+  transform: translateZ(0);
+  animation: marquee-scroll var(--marquee-duration, 30s) linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-track-reverse {
+  animation-direction: reverse;
+}
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Skip layout & paint for offscreen sections → faster first paint + scroll.
+   Landing pages only: inside the portal it would break scroll-to and sticky heads. */
+.landing-view section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+/* Script accent (poster tagline style) */
+.font-script {
+  font-family: 'Caveat', ui-rounded, cursive;
+}
+
+/* Light 3D tilt for hero / feature cards — flat on phones for performance */
+@media (min-width: 1024px) {
+  .tilt-card {
+    transform: perspective(1400px) rotateX(4deg) rotateY(-7deg) rotateZ(0.4deg);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tilt-card:hover {
+    transform: perspective(1400px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+}
+
+/* Dotted connector used by the curriculum path */
+.dot-path {
+  background-image: linear-gradient(to bottom, #E11D25 55%, rgba(225, 29, 37, 0) 0);
+  background-position: left top;
+  background-repeat: repeat-y;
+  background-size: 2px 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .topic-progress,
+  .journey-line {
+    animation: none;
+  }
+  .journey-line {
+    stroke-dashoffset: 0;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* The artwork spans the banner's full height; only the outer card clips it. */
+.student-hero {
+  content-visibility: visible;
+  background-image: radial-gradient(hsl(var(--border) / 0.65) 0.8px, transparent 0.8px);
+  background-size: 9px 9px;
+}
+
+/* Data-driven progress charts: semantic hues, bright traces and live endpoints. */
+.progress-rose { --metric-color: hsl(var(--progress-rose)); }
+.progress-orange { --metric-color: hsl(var(--progress-orange)); }
+.progress-blue { --metric-color: hsl(var(--progress-blue)); }
+.progress-purple { --metric-color: hsl(var(--progress-purple)); }
+.progress-green { --metric-color: hsl(var(--progress-green)); }
+.progress-gold { --metric-color: hsl(var(--progress-gold)); }
+.progress-metric { overflow: hidden; }
+.progress-metric-icon {
+  color: var(--metric-color);
+  background: color-mix(in srgb, var(--metric-color) 15%, hsl(var(--card)));
+  box-shadow: inset 0 0 18px color-mix(in srgb, var(--metric-color) 10%, transparent);
+}
+.progress-rise {
+  background: color-mix(in srgb, hsl(var(--progress-up)) 13%, hsl(var(--card)));
+  text-shadow: 0 0 12px hsl(var(--progress-up) / 0.3);
+  box-shadow: 0 0 14px hsl(var(--progress-up) / 0.09);
+}
+.progress-fall {
+  background: color-mix(in srgb, hsl(var(--progress-down)) 11%, hsl(var(--card)));
+  text-shadow: 0 0 12px hsl(var(--progress-down) / 0.25);
+}
+.progress-chart .recharts-area-curve {
+  filter: drop-shadow(0 0 4px var(--metric-color));
+}
+.progress-point-halo { animation: progress-beacon 2.2s ease-in-out infinite; }
+.progress-value { animation: progress-value-in 550ms ease-out; }
+@keyframes progress-beacon { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.45; } }
+@keyframes progress-value-in { from { opacity: 0.45; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .progress-point-halo, .progress-value { animation: none; }
+  .progress-point-halo { opacity: 0.2; }
+}
+
+/* Progress tab: the journey line draws itself once on open */
+.journey-line {
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation: journey-draw 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes journey-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Speaking Quest: game feedback + checkpoint glow */
+.q-pop {
+  animation: q-pop 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.q-shake {
+  animation: q-shake 380ms ease-in-out;
+}
+.q-rise {
+  animation: q-rise 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.quest-glow {
+  animation: quest-glow 1.8s ease-in-out infinite;
+}
+@keyframes q-pop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.035); }
+  100% { transform: scale(1); }
+}
+@keyframes q-shake {
+  10%, 90% { transform: translateX(-1px); }
+  30%, 70% { transform: translateX(2.5px); }
+  50% { transform: translateX(-2.5px); }
+}
+@keyframes q-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes quest-glow {
+  0%, 100% { opacity: 0.25; transform: translateX(-50%) scale(0.92); }
+  50% { opacity: 0.6; transform: translateX(-50%) scale(1.12); }
+}
+/* Viewport-sized 3D world: scroll stays native, offscreen terrain is not rendered. */
+.quest-world-render { contain: strict; }
+.quest-world-vignette {
+  background: linear-gradient(90deg, hsl(var(--quest-ink) / 0.08), transparent 12%, transparent 88%, hsl(var(--quest-ink) / 0.08));
+}
+
+/* Speaking Quest trail: a road that flows, clouds that drift, trees that sway */
+.trail-flow {
+  animation: trail-flow 7s linear infinite;
+}
+.scene-drift {
+  animation: scene-drift 26s ease-in-out infinite;
+}
+.scene-sway {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: scene-sway 7.5s ease-in-out infinite;
+}
+.scene-bob {
+  animation: scene-bob 3.2s ease-in-out infinite;
+}
+@keyframes trail-flow {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -288; }
+}
+@keyframes scene-drift {
+  0%, 100% { transform: translateX(-10px); }
+  50% { transform: translateX(16px); }
+}
+@keyframes scene-sway {
+  0%, 100% { transform: rotate(-2.4deg); }
+  50% { transform: rotate(2.4deg); }
+}
+@keyframes scene-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .q-pop, .q-shake, .q-rise, .quest-glow,
+  .trail-flow, .scene-drift, .scene-sway, .scene-bob { animation: none; }
+}
+
+/* === Student bottom nav: floating pill with an elevated Speak button === */
+/* A circular hole cut from the top centre of the pill, so the red glow and the
+   Speak button can rise out of it like the reference artwork. */
+.tabbar-notch {
+  -webkit-mask-image: radial-gradient(circle 41px at 50% 0, transparent 0 39px, #000 40px);
+  mask-image: radial-gradient(circle 41px at 50% 0, transparent 0 39px, #000 40px);
+}
+/* Living ripple rings around the Speak button: they grow, fade and repeat. */
+.tabbar-ripple {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 72px;
+  height: 72px;
+  margin: -36px 0 0 -36px;
+  border-radius: 9999px;
+  border: 1px solid rgba(227, 27, 35, 0.36);
+  box-shadow: 0 0 7px rgba(227, 27, 35, 0.12), inset 0 0 5px rgba(227, 27, 35, 0.08);
+  opacity: 0;
+  animation: tabbar-ripple 3.4s cubic-bezier(0.2, 0.6, 0.35, 1) infinite;
+}
+@keyframes tabbar-ripple {
+  0% { transform: scale(0.84); opacity: 0; }
+  18% { opacity: 0.5; }
+  72% { opacity: 0.16; }
+  100% { transform: scale(1.32); opacity: 0; }
+}
+.tabbar-bloom {
+  animation: tabbar-bloom 3.4s ease-in-out infinite;
+}
+@keyframes tabbar-bloom {
+  0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.96); }
+  50% { opacity: 0.52; transform: translate(-50%, -50%) scale(1.03); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tabbar-ripple, .tabbar-bloom { animation: none; }
+  .tabbar-ripple { opacity: 0.35; }
+  .tabbar-bloom { opacity: 0.6; }
+}
+
+/* Streak flame: a slow breath of warmth, quiet enough to never distract */
+.streak-bloom {
+  animation: streak-bloom 3.6s ease-in-out infinite;
+}
+@keyframes streak-bloom {
+  0%, 100% { opacity: 0.55; transform: scale(0.97); }
+  50% { opacity: 0.95; transform: scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .streak-bloom { animation: none; opacity: 0.8; }
+}
+
+/* === Mobile viewport helpers ===
+   iOS Safari measures `vh` against the tallest toolbar state, so fixed and
+   scrollable panels built on vh get their last row hidden behind the browser
+   chrome. These keep the vh value as a fallback for older Safari and upgrade to
+   dvh only where it is actually supported. */
+.quest-scroll {
+  max-height: calc(82vh - 96px);
+}
+.dialog-tall {
+  max-height: 86vh;
+}
+.lightbox-img {
+  max-height: 78vh;
+}
+@supports (height: 100dvh) {
+  .quest-scroll {
+    max-height: calc(82dvh - 96px);
+  }
+  .dialog-tall {
+    max-height: 86dvh;
+  }
+  .lightbox-img {
+    max-height: 78dvh;
+  }
+}
+
+/* Keyboard users need to see where they are; touch and mouse are untouched. */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Level slideshow autoplay bar */
+.topic-progress {
+  transform-origin: left center;
+  animation: topic-progress 5s linear forwards;
+}
+@keyframes topic-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* === Portal dark theme remap ===
+   The portal is painted with fixed hex utilities, so dark mode remaps those exact
+   surfaces, inks, lines and washes instead of leaving light cards on a dark page.
+   Anything that ships its own dark: variant is skipped, so hand-made dark design
+   keeps winning. The `dark` class is only ever set while a member is in the portal. */
+.dark {
+  color-scheme: dark;
+}
+
+/* Cards, sheets and page fills */
+.dark :is([class*="bg-white"]:not([class*="bg-white/"]):not([class*="dark:"]),
+    [class*="bg-[#FAFAFA]"]:not([class*="dark:"]),
+    [class*="bg-[#FAFAFB]"]:not([class*="dark:"]),
+    [class*="bg-[#FCFCFC]"]:not([class*="dark:"]),
+    [class*="bg-[#F4F4F5]"]:not([class*="dark:"]),
+    [class*="bg-[#F3F3F5]"]:not([class*="dark:"])) {
+  background-color: #17181a;
+}
+
+/* Softer fills, chips and inner wells */
+.dark :is([class*="bg-[#F7F7F8]"]:not([class*="dark:"]),
+    [class*="bg-[#F5F5F5]"]:not([class*="dark:"]),
+    [class*="bg-[#F4F4F4]"]:not([class*="dark:"]),
+    [class*="bg-[#F3F3F3]"]:not([class*="dark:"]),
+    [class*="bg-[#F1F1F1]"]:not([class*="dark:"]),
+    [class*="bg-[#F1F1F2]"]:not([class*="dark:"]),
+    [class*="bg-[#F0F0F0]"]:not([class*="dark:"]),
+    [class*="bg-[#EFEFEF]"]:not([class*="dark:"]),
+    [class*="bg-[#EDEDED]"]:not([class*="dark:"]),
+    [class*="bg-[#EEEEF0]"]:not([class*="dark:"]),
+    [class*="bg-[#EFF1F5]"]:not([class*="dark:"]),
+    [class*="bg-[#E8E8E8]"]:not([class*="dark:"]),
+    [class*="bg-[#E4E4E4]"]:not([class*="dark:"]),
+    [class*="bg-slate-50"]:not([class*="dark:"]),
+    [class*="bg-slate-100"]:not([class*="dark:"])) {
+  background-color: #1d1e22;
+}
+
+/* Tinted panels keep their meaning, only darker */
+.dark :is([class*="bg-[#FFF1F1]"]:not([class*="dark:"]),
+    [class*="bg-[#FFEFF0]"]:not([class*="dark:"]),
+    [class*="bg-[#FDECEC]"]:not([class*="dark:"]),
+    [class*="bg-[#FFECEE]"]:not([class*="dark:"]),
+    [class*="bg-[#FFE3EA]"]:not([class*="dark:"]),
+    [class*="bg-[#FFF1F2]"]:not([class*="dark:"])) {
+  background-color: #2b1417;
+}
+.dark :is([class*="bg-[#E9F7EC]"]:not([class*="dark:"]),
+    [class*="bg-[#E9F7EF]"]:not([class*="dark:"]),
+    [class*="bg-[#F0FBF3]"]:not([class*="dark:"])) {
+  background-color: #13251a;
+}
+.dark :is([class*="bg-[#EAF2FF]"]:not([class*="dark:"]),
+    [class*="bg-[#EAF1FF]"]:not([class*="dark:"])) {
+  background-color: #14203a;
+}
+.dark :is([class*="bg-[#FFFDF5]"]:not([class*="dark:"]),
+    [class*="bg-[#FFF6DF]"]:not([class*="dark:"]),
+    [class*="bg-[#FFF8E1]"]:not([class*="dark:"]),
+    [class*="bg-[#FFF6D6]"]:not([class*="dark:"]),
+    [class*="bg-[#FFF3E6]"]:not([class*="dark:"]),
+    [class*="bg-[#FFFBF4]"]:not([class*="dark:"]),
+    [class*="bg-[#FFFBEE]"]:not([class*="dark:"])) {
+  background-color: #241e12;
+}
+.dark :is([class*="bg-[#F3ECFF]"]:not([class*="dark:"])) {
+  background-color: #1f1836;
+}
+
+/* Dark chips stay visible against the dark page */
+.dark :is([class*="bg-[#0A0A0A]"]:not([class*="dark:"])) {
+  background-color: #26272c;
+}
+
+/* Light washes become quiet dark gradients */
+.dark :is([class*="bg-gradient-to-"]):not([class*="dark:"]):is([class*="from-[#FFF"],
+    [class*="from-[#F7"], [class*="from-[#F4"], [class*="from-[#E8"], [class*="from-white"],
+    [class*="to-[#FFF"], [class*="to-[#F7"], [class*="to-white"], [class*="via-[#FFF"]) {
+  background-image: linear-gradient(180deg, #1b1c20, #141518);
+}
+
+/* Ink */
+.dark :is([class*="text-[#0A0A0A]"]:not([class*="dark:"]),
+    [class*="text-[#111]"]:not([class*="dark:"]),
+    [class*="text-[#141B2D]"]:not([class*="dark:"]),
+    [class*="text-[#1F2937]"]:not([class*="dark:"]),
+    [class*="text-[#0F172A]"]:not([class*="dark:"]),
+    [class*="text-black"]:not([class*="text-black/"]):not([class*="dark:"]),
+    [class*="text-slate-900"]:not([class*="dark:"]),
+    [class*="text-slate-800"]:not([class*="dark:"])) {
+  color: #f2f2f4;
+}
+
+/* Secondary text */
+.dark :is([class*="text-[#8A8A8A]"]:not([class*="dark:"]),
+    [class*="text-[#9B9B9B]"]:not([class*="dark:"]),
+    [class*="text-[#A0A0A0]"]:not([class*="dark:"]),
+    [class*="text-[#8C8C8C]"]:not([class*="dark:"]),
+    [class*="text-[#6E6E6E]"]:not([class*="dark:"]),
+    [class*="text-[#6B6B6B]"]:not([class*="dark:"]),
+    [class*="text-[#6B6B70]"]:not([class*="dark:"]),
+    [class*="text-slate-500"]:not([class*="dark:"]),
+    [class*="text-slate-600"]:not([class*="dark:"])) {
+  color: #a8a8b0;
+}
+
+/* Faint text */
+.dark :is([class*="text-[#C9C9C9]"]:not([class*="dark:"]),
+    [class*="text-[#DADADA]"]:not([class*="dark:"]),
+    [class*="text-[#B7A79A]"]:not([class*="dark:"]),
+    [class*="text-slate-400"]:not([class*="dark:"])) {
+  color: #7f7f88;
+}
+
+/* Brand and semantic accents, brightened for contrast */
+.dark :is([class*="text-[#D80000]"]:not([class*="dark:"]),
+    [class*="text-[#E31B23]"]:not([class*="dark:"]),
+    [class*="text-[#C01818]"]:not([class*="dark:"]),
+    [class*="text-[#B00000]"]:not([class*="dark:"]),
+    [class*="text-[#B01B1B]"]:not([class*="dark:"]),
+    [class*="text-[#E63A32]"]:not([class*="dark:"])) {
+  color: #ff6b70;
+}
+.dark :is([class*="text-[#1B7A34]"]:not([class*="dark:"]),
+    [class*="text-[#12903C]"]:not([class*="dark:"]),
+    [class*="text-[#16A34A]"]:not([class*="dark:"]),
+    [class*="text-[#15803D]"]:not([class*="dark:"])) {
+  color: #4ade80;
+}
+.dark :is([class*="text-[#1D4ED8]"]:not([class*="dark:"]),
+    [class*="text-[#2563EB]"]:not([class*="dark:"])) {
+  color: #82a7ff;
+}
+.dark :is([class*="text-[#8A6B00]"]:not([class*="dark:"]),
+    [class*="text-[#8A6A00]"]:not([class*="dark:"]),
+    [class*="text-[#B98900]"]:not([class*="dark:"]),
+    [class*="text-[#7A6000]"]:not([class*="dark:"]),
+    [class*="text-[#5C4700]"]:not([class*="dark:"]),
+    [class*="text-[#B4551F]"]:not([class*="dark:"]),
+    [class*="text-[#EA7B0C]"]:not([class*="dark:"]),
+    [class*="text-[#E2571C]"]:not([class*="dark:"])) {
+  color: #ffc861;
+}
+.dark :is([class*="text-[#6D28D9]"]:not([class*="dark:"])) {
+  color: #b79cff;
+}
+
+/* Gold fills keep dark ink, so their labels stay readable */
+.dark :is([class*="bg-[#FFCC00]"], [class*="bg-[#FFD84D]"], [class*="bg-[#F5B301]"], [class*="bg-[#FFC800]"]) :is([class*="text-[#0A0A0A]"], [class*="text-[#111]"]) {
+  color: #0a0a0a;
+}
+
+/* Lines */
+.dark :is([class*="border-[#EFEFEF]"]:not([class*="dark:"]),
+    [class*="border-[#E8E8E8]"]:not([class*="dark:"]),
+    [class*="border-[#E4E4E4]"]:not([class*="dark:"]),
+    [class*="border-[#F3F3F3]"]:not([class*="dark:"]),
+    [class*="border-[#EDEDED]"]:not([class*="dark:"]),
+    [class*="border-[#F1F1F1]"]:not([class*="dark:"]),
+    [class*="border-[#F0F0F0]"]:not([class*="dark:"]),
+    [class*="border-[#F5F5F5]"]:not([class*="dark:"]),
+    [class*="border-[#F0F0F1]"]:not([class*="dark:"]),
+    [class*="border-[#EFEFF1]"]:not([class*="dark:"]),
+    [class*="border-[#F1F1F2]"]:not([class*="dark:"]),
+    [class*="border-[#E8ECF4]"]:not([class*="dark:"]),
+    [class*="border-[#EEEEF0]"]:not([class*="dark:"]),
+    [class*="border-[#E5E5E5]"]:not([class*="dark:"]),
+    [class*="border-slate-200"]:not([class*="dark:"]),
+    [class*="border-slate-100"]:not([class*="dark:"]),
+    [class*="divide-[#EFEFEF]"]:not([class*="dark:"]),
+    [class*="divide-[#F1F1F1]"]:not([class*="dark:"])) {
+  border-color: #2b2c31;
+}
+.dark :is([class*="border-[#FFE6EC]"]:not([class*="dark:"]),
+    [class*="border-[#FFD2DD]"]:not([class*="dark:"]),
+    [class*="border-[#F3E2E2]"]:not([class*="dark:"]),
+    [class*="border-[#F6E4E5]"]:not([class*="dark:"]),
+    [class*="border-[#F4E3E4]"]:not([class*="dark:"]),
+    [class*="border-[#F0D6DD]"]:not([class*="dark:"]),
+    [class*="border-[#FFE3EA]"]:not([class*="dark:"])) {
+  border-color: #3a2a2e;
+}
+.dark :is([class*="border-[#FFE9A8]"]:not([class*="dark:"]),
+    [class*="border-[#FFE7A8]"]:not([class*="dark:"]),
+    [class*="border-[#F3E7C8]"]:not([class*="dark:"])) {
+  border-color: #3b3320;
+}
+
+/* Type: light text on dark reads heavier, so the heaviest weight eases off */
+.dark :is([class*="font-black"], [class*="font-extrabold"]) {
+  --tw-font-weight: 800;
+  font-weight: 800;
+}
+.dark :is(input, textarea)::placeholder {
+  color: #6f6f78;
+}
+
+/* Remaining portal inks: mid greys, warm greys and small accents */
+.dark :is([class*="text-[#1A1A1A]"]:not([class*="dark:"])) {
+  color: #f2f2f4;
+}
+.dark :is([class*="text-[#3A3A3A]"]:not([class*="dark:"]),
+    [class*="text-[#3D3D3D]"]:not([class*="dark:"]),
+    [class*="text-[#44506B]"]:not([class*="dark:"]),
+    [class*="text-[#4A5568]"]:not([class*="dark:"]),
+    [class*="text-[#5A5A5A]"]:not([class*="dark:"]),
+    [class*="text-[#5E5E5E]"]:not([class*="dark:"]),
+    [class*="text-[#5F5F5F]"]:not([class*="dark:"]),
+    [class*="text-[#6F6F6F]"]:not([class*="dark:"]),
+    [class*="text-[#7A7A7A]"]:not([class*="dark:"]),
+    [class*="text-[#7C7C7C]"]:not([class*="dark:"]),
+    [class*="text-[#8F8F8F]"]:not([class*="dark:"]),
+    [class*="text-[#9A9A9A]"]:not([class*="dark:"]),
+    [class*="text-[#A5A5A5]"]:not([class*="dark:"]),
+    [class*="text-[#B5B5B5]"]:not([class*="dark:"]),
+    [class*="text-[#C4C4C4]"]:not([class*="dark:"]),
+    [class*="text-[#C6C6C6]"]:not([class*="dark:"]),
+    [class*="text-[#5C5852]"]:not([class*="dark:"]),
+    [class*="text-[#6E6862]"]:not([class*="dark:"]),
+    [class*="text-[#7C766F]"]:not([class*="dark:"]),
+    [class*="text-[#8E857E]"]:not([class*="dark:"]),
+    [class*="text-[#8A6B72]"]:not([class*="dark:"])) {
+  color: #a8a8b0;
+}
+.dark :is([class*="text-[#A2978D]"]:not([class*="dark:"]),
+    [class*="text-[#B0A69D]"]:not([class*="dark:"]),
+    [class*="text-[#B0A79E]"]:not([class*="dark:"]),
+    [class*="text-[#B9B4AF]"]:not([class*="dark:"]),
+    [class*="text-[#C9C2BA]"]:not([class*="dark:"]),
+    [class*="text-[#D2CBC3]"]:not([class*="dark:"])) {
+  color: #9c968f;
+}
+.dark :is([class*="text-[#C22F27]"]:not([class*="dark:"]),
+    [class*="text-[#C4181F]"]:not([class*="dark:"])) {
+  color: #ff6b70;
+}
+.dark :is([class*="text-[#26418C]"]:not([class*="dark:"])) {
+  color: #8fb0ff;
+}
+.dark :is([class*="text-[#7C3AED]"]:not([class*="dark:"]),
+    [class*="text-[#8B5CF6]"]:not([class*="dark:"])) {
+  color: #b79cff;
+}
+.dark :is([class*="text-[#8B1FAF]"]:not([class*="dark:"])) {
+  color: #d99be8;
+}
+.dark :is([class*="text-[#C0174A]"]:not([class*="dark:"])) {
+  color: #ff7a9e;
+}
+.dark :is([class*="text-[#A88000]"]:not([class*="dark:"]),
+    [class*="text-[#B78B00]"]:not([class*="dark:"])) {
+  color: #ffc861;
+}
+
+/* Remaining portal fills */
+.dark :is([class*="bg-[#F6F6F7]"]:not([class*="dark:"]),
+    [class*="bg-[#E4E4E5]"]:not([class*="dark:"])) {
+  background-color: #1d1e22;
+}
+.dark :is([class*="bg-[#EAF4FF]"]:not([class*="dark:"]),
+    [class*="bg-[#EDF2FF]"]:not([class*="dark:"]),
+    [class*="bg-[#EFF4FF]"]:not([class*="dark:"]),
+    [class*="bg-[#F0F5FF]"]:not([class*="dark:"])) {
+  background-color: #14203a;
+}
+.dark :is([class*="bg-[#E9F9EE]"]:not([class*="dark:"]),
+    [class*="bg-[#EAF7EE]"]:not([class*="dark:"]),
+    [class*="bg-[#EAF9EF]"]:not([class*="dark:"]),
+    [class*="bg-[#F1FAF3]"]:not([class*="dark:"])) {
+  background-color: #13251a;
+}
+.dark :is([class*="bg-[#F3E8FF]"]:not([class*="dark:"]),
+    [class*="bg-[#F6F1FF]"]:not([class*="dark:"])) {
+  background-color: #1f1836;
+}
+.dark :is([class*="bg-[#FFD3E0]"]:not([class*="dark:"]),
+    [class*="bg-[#FFE9EA]"]:not([class*="dark:"]),
+    [class*="bg-[#FFE9EE]"]:not([class*="dark:"]),
+    [class*="bg-[#FFEFEF]"]:not([class*="dark:"]),
+    [class*="bg-[#FFF8F8]"]:not([class*="dark:"]),
+    [class*="bg-[#FFF8F9]"]:not([class*="dark:"])) {
+  background-color: #2b1417;
+}
+.dark :is([class*="bg-[#FFF1E4]"]:not([class*="dark:"]),
+    [class*="bg-[#FFF4E9]"]:not([class*="dark:"]),
+    [class*="bg-[#FFF6DB]"]:not([class*="dark:"]),
+    [class*="bg-[#FFF6DE]"]:not([class*="dark:"]),
+    [class*="bg-[#FFF9E6]"]:not([class*="dark:"]),
+    [class*="bg-[#FFFBF0]"]:not([class*="dark:"]),
+    [class*="bg-[#FFFDF2]"]:not([class*="dark:"]),
+    [class*="bg-[#FFFDF3]"]:not([class*="dark:"])) {
+  background-color: #241e12;
+}
+
+/* Remaining portal lines, including the warm and violet ones */
+.dark :is([class*="border-[#E4E4E6]"]:not([class*="dark:"]),
+    [class*="border-[#E7E7E9]"]:not([class*="dark:"]),
+    [class*="border-[#E8E8E9]"]:not([class*="dark:"]),
+    [class*="border-[#F6E9DE]"]:not([class*="dark:"]),
+    [class*="border-[#E4DED7]"]:not([class*="dark:"]),
+    [class*="border-[#E7E2DC]"]:not([class*="dark:"])) {
+  border-color: #322b26;
+}
+.dark :is([class*="border-[#E7C7FF]"]:not([class*="dark:"])) {
+  border-color: #3b2f52;
+}
+.dark :is([class*="border-[#0A0A0A]"]:not([class*="dark:"]),
+    [class*="border-[#1A1A1A]"]:not([class*="dark:"])) {
+  border-color: #3a3b41;
+}

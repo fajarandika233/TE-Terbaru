@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/jpeg" href="https://media.base44.com/images/public/6a3930f017c7c6c90a38d2f3/4e4a061a5_TemanEnglish_20260115_075335_00001.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <title>TemanEnglish — English Community No.1 di Indonesia | Program Speaking 30 Hari</title>
+    <meta name="description" content="Join TemanEnglish, Indonesia's #1 English Speaking Community. Practice speaking every day for 30 days. Build confidence, expand vocabulary, and speak fluently. Mulai setiap tanggal 1." />
+    <meta property="og:title" content="TemanEnglish — Program Speaking 30 Hari" />
+    <meta property="og:description" content="English Community No.1 di Indonesia. Belajar speaking setiap hari selama 30 hari. Join now!" />
+    <meta property="og:image" content="https://media.base44.com/images/public/6a3930f017c7c6c90a38d2f3/4e4a061a5_TemanEnglish_20260115_075335_00001.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1200" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="TemanEnglish — Program Speaking 30 Hari" />
+    <meta name="twitter:description" content="English Community No.1 di Indonesia. Belajar speaking setiap hari selama 30 hari. Join now!" />
+    <meta name="twitter:image" content="https://media.base44.com/images/public/6a3930f017c7c6c90a38d2f3/4e4a061a5_TemanEnglish_20260115_075335_00001.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
