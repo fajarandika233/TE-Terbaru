@@ -1,0 +1,36 @@
+import { base44 } from "@/api/base44Client";
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Requests the server understood but refused — retrying these is pointless.
+const FINAL = [400, 401, 403, 404, 409, 422];
+
+export function statusOf(err) {
+  return Number(err?.response?.status || err?.status || 0);
+}
+
+export function messageOf(err) {
+  return (
+    err?.response?.data?.error ||
+    err?.data?.error ||
+    err?.response?.data?.message ||
+    err?.message ||
+    ""
+  );
+}
+
+// One backend call, retried when the platform is briefly busy (rate limit,
+// network blip, 5xx) so a single hiccup never turns into an error screen.
+export async function invokePortal(name, payload, { attempts = 3 } = {}) {
+  let last = null;
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    try {
+      return await base44.functions.invoke(name, payload);
+    } catch (err) {
+      last = err;
+      if (FINAL.includes(statusOf(err))) throw err;
+      if (attempt < attempts - 1) await sleep(1200 * (attempt + 1));
+    }
+  }
+  throw last;
+}

@@ -1,0 +1,28 @@
+import React from "react";
+import Navbar from "@/components/landing/Navbar";
+import HeroSection from "@/components/landing/HeroSection";
+import ClassVideoSection from "@/components/landing/ClassVideoSection";
+import CurriculumSection from "@/components/landing/CurriculumSection";
+import TimelineSection from "@/components/landing/TimelineSection";
+import KegiatanSection from "@/components/landing/KegiatanSection";
+import MateriBelajarSection from "@/components/landing/MateriBelajarSection";
+import FinalCTA from "@/components/landing/FinalCTA";
+import Footer from "@/components/landing/Footer";
+import StickyMobileCTA from "@/components/landing/StickyMobileCTA";
+
+export default function Home() {
+  return (
+    <div className="landing-view min-h-screen overflow-x-hidden bg-white">
+      <Navbar />
+      <HeroSection />
+      <ClassVideoSection />
+      <CurriculumSection />
+      <TimelineSection />
+      <KegiatanSection />
+      <MateriBelajarSection />
+      <FinalCTA />
+      <Footer />
+      <StickyMobileCTA />
+    </div>
+  );
+}

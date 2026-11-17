@@ -1,0 +1,24 @@
+import React from "react";
+import Navbar from "@/components/landing/Navbar";
+import PageHero from "@/components/landing/PageHero";
+import GallerySection from "@/components/landing/GallerySection";
+import PageFooterCTA from "@/components/landing/PageFooterCTA";
+import Footer from "@/components/landing/Footer";
+import StickyMobileCTA from "@/components/landing/StickyMobileCTA";
+
+export default function Gallery() {
+  return (
+    <div className="landing-view min-h-screen bg-white overflow-x-hidden">
+      <Navbar />
+      <PageHero
+        eyebrow="Gallery"
+        title={<>Sekitar <span className="text-[#D80000]">Zoom Class</span></>}
+        subtitle="Cuplikan suasana kelas speaking TemanEnglish — seru, hangat, dan gak formal."
+      />
+      <GallerySection />
+      <PageFooterCTA />
+      <Footer />
+      <StickyMobileCTA />
+    </div>
+  );
+}

@@ -1,0 +1,147 @@
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { base44 } from "@/api/base44Client";
+import StudentPortal from "@/components/portal/StudentPortal";
+import MentorPortal from "@/components/portal/MentorPortal";
+import OwnerPortal from "@/components/portal/owner/OwnerPortal";
+import { PendingScreen, BlockedScreen } from "@/components/portal/StatusScreens";
+import { invokePortal, statusOf } from "@/lib/portalRequest";
+
+const CACHE_KEY = "te_portal_profile_v1";
+const RETRY_AFTER = 20000;
+
+function readCache() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeCache(profile) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ user_id: profile.user_id, profile }));
+  } catch {
+    return;
+  }
+}
+
+export default function Portal() {
+  const [state, setState] = useState({ loading: true, profile: null, error: "" });
+  const retry = useRef(null);
+  const requestedRole = new URLSearchParams(window.location.search).get("as") || "student";
+
+  // The profile is cached on the device, so a busy server never blocks the
+  // portal: the last known account renders while ensureProfile retries itself.
+  const load = useCallback(async () => {
+    setState((prev) => ({ ...prev, loading: true, error: "" }));
+    try {
+      const res = await invokePortal("ensureProfile", { requested_role: requestedRole }, { attempts: 3 });
+      const profile = res?.data?.profile || null;
+      if (profile) writeCache(profile);
+      if (retry.current) {
+        clearTimeout(retry.current);
+        retry.current = null;
+      }
+      setState({ loading: false, profile, error: profile ? "" : "Profile not found." });
+    } catch (err) {
+      if (statusOf(err) === 401) {
+        base44.auth.redirectToLogin("/portal");
+        return;
+      }
+      const me = await base44.auth.me().catch(() => null);
+      const cache = readCache();
+      const cached = cache && me && cache.user_id === me.id ? cache.profile : null;
+      setState({ loading: false, profile: cached, error: cached ? "" : "Server is busy. Tap Try again." });
+      if (!retry.current) {
+        retry.current = setTimeout(() => {
+          retry.current = null;
+          load();
+        }, RETRY_AFTER);
+      }
+    }
+  }, [requestedRole]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  useEffect(
+    () => () => {
+      if (retry.current) clearTimeout(retry.current);
+    },
+    []
+  );
+
+  // A profile edit made inside the profile tab shows up everywhere immediately.
+  const handleProfileChange = useCallback((saved) => {
+    setState((prev) => {
+      if (!prev.profile || !saved) return prev;
+      const profile = { ...prev.profile, ...saved };
+      writeCache(profile);
+      return { ...prev, profile };
+    });
+  }, []);
+
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem(CACHE_KEY);
+    } catch {
+      // ignore
+    }
+    base44.auth.logout("/login");
+  };
+
+  if (state.loading && !state.profile) {
+    return (
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
+        <div className="flex items-center gap-3 text-sm text-[#666]">
+          <div className="w-4 h-4 border-2 border-[#E4E4E4] border-t-[#D80000] rounded-full animate-spin" />
+          Preparing your dashboard...
+        </div>
+      </div>
+    );
+  }
+
+  if (state.error || !state.profile) {
+    return (
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center px-5">
+        <div className="w-full max-w-sm text-center">
+          <p className="text-sm text-[#0A0A0A] font-semibold">{state.error || "Something went wrong."}</p>
+          <p className="mt-1 text-[11.5px] text-[#8A8A8A]">This usually clears in a few seconds.</p>
+          <div className="mt-4 flex flex-col gap-2">
+            <button onClick={load} className="py-2.5 rounded-full bg-[#D80000] text-white text-sm font-bold">
+              Try again
+            </button>
+            <button
+              onClick={handleLogout}
+              className="py-2.5 rounded-full border border-[#E4E4E4] text-sm font-semibold text-[#666]"
+            >
+              Sign out
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const { profile } = state;
+
+  if (profile.account_role !== "owner" && profile.status === "pending") {
+    return <PendingScreen profile={profile} onLogout={handleLogout} />;
+  }
+
+  if (profile.account_role === "student" && profile.status !== "active") {
+    return <BlockedScreen profile={profile} onLogout={handleLogout} />;
+  }
+
+  if (profile.account_role === "owner") {
+    return <OwnerPortal profile={profile} onLogout={handleLogout} onProfileChange={handleProfileChange} />;
+  }
+
+  if (profile.account_role === "mentor") {
+    return <MentorPortal profile={profile} onLogout={handleLogout} onProfileChange={handleProfileChange} />;
+  }
+
+  return <StudentPortal profile={profile} onLogout={handleLogout} onProfileChange={handleProfileChange} />;
+}

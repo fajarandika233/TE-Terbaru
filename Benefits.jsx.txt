@@ -1,0 +1,84 @@
+import React from "react";
+import { motion } from "framer-motion";
+import { Mic, Zap, Users, BookOpen, TrendingUp, Heart } from "lucide-react";
+import Navbar from "@/components/landing/Navbar";
+import PageHero from "@/components/landing/PageHero";
+import PageFooterCTA from "@/components/landing/PageFooterCTA";
+import Footer from "@/components/landing/Footer";
+import StickyMobileCTA from "@/components/landing/StickyMobileCTA";
+
+const benefits = [
+  {
+    icon: Mic,
+    title: "Speaking Practice Tiap Hari",
+    desc: "Bukan nonton video atau baca modul. Kamu ngomong setiap hari selama 1 bulan — itu satu-satunya cara biar mulut terbiasa ngomong English.",
+  },
+  {
+    icon: Heart,
+    title: "Confidence Naik Drastis",
+    desc: "Takut salah? Di sini gak ada. Kamu mulai dari hal sederhana, dan tiap hari rasa percaya diri kamu makin gede.",
+  },
+  {
+    icon: Users,
+    title: "Komunitas yang Supportif",
+    desc: "Belajar bareng 100+ member per batch yang sama-semangat. Kamu gak sendirian — semua support dan saling dorong.",
+  },
+  {
+    icon: BookOpen,
+    title: "Idioms & Expressions Asli",
+    desc: "Kosa kata yang dipakai native speaker dalam percakapan nyata — bukan hafalan buku teori jadul.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Progress Terasa Tiap Hari",
+    desc: "Tiap sesi ada reflection. Kamu lihat sendiri perbedaannya dari hari 1 sampai hari 30.",
+  },
+  {
+    icon: Zap,
+    title: "Cepat & Konsisten",
+    desc: "Sesi ringan tiap malam (20.00 WIB), cukup konsisten tanpa bikin capek. Hasilnya jauh lebih kencang dari belajar sendiri.",
+  },
+];
+
+export default function Benefits() {
+  return (
+    <div className="landing-view min-h-screen bg-white overflow-x-hidden">
+      <Navbar />
+      <PageHero
+        eyebrow="Kenapa TemanEnglish"
+        title={<>Bukan Modul, Kamu <span className="text-[#D80000]">Ngomong</span></>}
+        subtitle="Program ini dirancang khusus buat kamu yang capek teori dan mau langsung praktek speaking di dunia nyata."
+      />
+      <section className="py-6 md:py-8 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {benefits.map((b, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
+              className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm"
+            >
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-[#D80000]/10 flex items-center justify-center flex-shrink-0">
+                  <b.icon size={22} className="text-[#D80000]" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-black text-[#D80000]">{String(i + 1).padStart(2, "0")}</span>
+                    <h3 className="font-heading font-bold text-base text-[#0A0A0A]">{b.title}</h3>
+                  </div>
+                  <p className="text-sm text-[#666] leading-relaxed">{b.desc}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+      <PageFooterCTA />
+      <Footer />
+      <StickyMobileCTA />
+    </div>
+  );
+}

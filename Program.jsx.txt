@@ -1,0 +1,55 @@
+import React from "react";
+import { motion } from "framer-motion";
+import { CheckCircle } from "lucide-react";
+import Navbar from "@/components/landing/Navbar";
+import PageHero from "@/components/landing/PageHero";
+import TimelineSection from "@/components/landing/TimelineSection";
+import PageFooterCTA from "@/components/landing/PageFooterCTA";
+import Footer from "@/components/landing/Footer";
+import StickyMobileCTA from "@/components/landing/StickyMobileCTA";
+
+const whatYouGet = [
+  "Akses 1 bulan kelas live Speaking via Zoom (Senin–Jumat, 20.00 WIB)",
+  "Bimbingan bareng mentor & komunitas yang supportif",
+  "Materi idioms & expressions yang dipakai native speaker",
+  "Pair up & group discussion tiap sesi — kamu ngomong, bukan dengerin",
+  "Feedback & daily reflection biar progress kamu terasa",
+  "Akses grup komunitas TemanEnglish",
+];
+
+export default function Program() {
+  return (
+    <div className="landing-view min-h-screen bg-white overflow-x-hidden">
+      <Navbar />
+      <PageHero
+        eyebrow="Program Speaking 1 Bulan"
+        title={<>Kamu Full 30 Hari <span className="text-[#D80000]">Praktek</span></>}
+        subtitle="Bukan modul, bukan video pasif. Kamu ngomong setiap hari bareng komunitas — selama 1 bulan penuh."
+      />
+
+      <section className="py-6 md:py-8 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {whatYouGet.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
+              className="flex items-start gap-3 bg-gray-50 border border-gray-100 rounded-2xl p-4"
+            >
+              <CheckCircle size={18} className="text-[#D80000] flex-shrink-0 mt-0.5" />
+              <span className="text-sm font-medium text-[#0A0A0A] leading-snug">{item}</span>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      <TimelineSection />
+
+      <PageFooterCTA />
+      <Footer />
+      <StickyMobileCTA />
+    </div>
+  );
+}

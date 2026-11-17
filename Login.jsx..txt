@@ -1,0 +1,149 @@
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { base44 } from "@/api/base44Client";
+import { ArrowRight, GraduationCap, Users, Loader2 } from "lucide-react";
+import { LOGO_URL } from "@/lib/portal";
+
+const ROLES = [
+  {
+    id: "student",
+    icon: Users,
+    title: "Login for Student",
+    desc: "Open your learning dashboard, tonight's Zoom room and daily material.",
+  },
+  {
+    id: "mentor",
+    icon: GraduationCap,
+    title: "Login for Mentor",
+    desc: "Publish your Zoom room and submit roll call after teaching.",
+  },
+];
+
+export default function Login() {
+  const [role, setRole] = useState("student");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [signedIn, setSignedIn] = useState(false);
+
+  useEffect(() => {
+    base44.auth.isAuthenticated().then(setSignedIn).catch(() => setSignedIn(false));
+  }, []);
+
+  const handleGoogle = () => {
+    setError("");
+    setLoading(true);
+    try {
+      const target = role === "mentor" ? "/portal?as=mentor" : "/portal?as=student";
+      base44.auth.loginWithProvider("google", target);
+    } catch (err) {
+      setLoading(false);
+      setError("Could not open Google sign-in. Please try again.");
+    }
+  };
+
+  return (
+    <div className="min-h-[100dvh] bg-[#FAFAFA] flex flex-col">
+      <header className="px-5 py-5 flex items-center justify-between max-w-5xl w-full mx-auto">
+        <Link to="/" className="flex items-center gap-2">
+          <img src={LOGO_URL} alt="TemanEnglish" className="h-9 w-9 rounded-lg object-cover" />
+          <span className="font-heading font-bold text-[15px] text-[#0A0A0A]">
+            Teman<span className="text-[#D80000]">English</span>
+          </span>
+        </Link>
+        <Link to="/" className="text-xs font-medium text-[#666] hover:text-[#0A0A0A]">
+          Back to website
+        </Link>
+      </header>
+
+      <main className="flex-1 w-full max-w-md mx-auto px-5 pb-14 pt-2">
+        <div className="mb-7">
+          <p className="text-[11px] font-bold tracking-[0.18em] text-[#D80000] uppercase">Member Portal</p>
+          <h1 className="mt-2 text-[27px] leading-tight font-heading font-black text-[#0A0A0A]">
+            Sign in with your Google account
+          </h1>
+          <p className="mt-2 text-sm text-[#666] leading-relaxed">
+            One door for every TemanEnglish class. Pick your access below, then continue with Google.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          {ROLES.map((item) => {
+            const Icon = item.icon;
+            const active = role === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => setRole(item.id)}
+                className={`w-full text-left rounded-2xl border p-4 transition-all duration-200 ${
+                  active
+                    ? "border-[#D80000] bg-white shadow-[0_10px_30px_-18px_rgba(216,0,0,0.55)]"
+                    : "border-[#E8E8E8] bg-white/60 hover:border-[#D0D0D0]"
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <span
+                    className={`mt-0.5 w-9 h-9 rounded-xl flex items-center justify-center ${
+                      active ? "bg-[#D80000] text-white" : "bg-[#F3F3F3] text-[#666]"
+                    }`}
+                  >
+                    <Icon size={17} />
+                  </span>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-bold text-[#0A0A0A]">{item.title}</span>
+                      <span
+                        className={`w-4 h-4 rounded-full border-2 ${
+                          active ? "border-[#D80000] bg-[#D80000]" : "border-[#D5D5D5]"
+                        }`}
+                      />
+                    </div>
+                    <p className="text-xs text-[#777] mt-1 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {error && <p className="mt-4 text-xs text-[#D80000] font-medium">{error}</p>}
+
+        <button
+          onClick={handleGoogle}
+          disabled={loading}
+          className="mt-5 w-full h-13 py-3.5 rounded-full bg-[#0A0A0A] text-white text-sm font-bold flex items-center justify-center gap-2.5 active:scale-[0.99] transition-transform disabled:opacity-70"
+        >
+          {loading ? (
+            <Loader2 size={17} className="animate-spin" />
+          ) : (
+            <svg width="17" height="17" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z" />
+              <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
+              <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z" />
+              <path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.6l6.2 5.2C41 35.5 44 30.1 44 24c0-1.3-.1-2.6-.4-3.9z" />
+            </svg>
+          )}
+          {loading ? "Redirecting to Google..." : `Continue as ${role === "mentor" ? "Mentor" : "Student"}`}
+          {!loading && <ArrowRight size={16} />}
+        </button>
+
+        <p className="mt-4 text-[11px] leading-relaxed text-[#8A8A8A] text-center">
+          Sign in and sign up with Google only — no password needed.
+          <br />
+          First time here? Just continue, your account is created and waits for owner approval.
+        </p>
+
+        {signedIn && (
+          <div className="mt-6 text-center">
+            <Link to="/portal" className="text-xs font-semibold text-[#D80000] hover:underline">
+              You are signed in — open your dashboard
+            </Link>
+          </div>
+        )}
+      </main>
+
+      <footer className="pb-6 text-center text-[10px] tracking-[0.16em] uppercase text-[#B0B0B0]">
+        Learn · Practise · Master
+      </footer>
+    </div>
+  );
+}
